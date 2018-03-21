@@ -3,7 +3,7 @@ const fs = require('fs-extra');
 const { spawnSync } = require('child_process');
 const dbo = require('ys-dbo');
 
-exports.use = `{ enable: true, package: 'ys-pg-koa-router' }`;
+exports.use = `{ enable: true, package: 'ys-pg-koa-router', agent: 'agent' }`;
 exports.common = `{}`;
 
 exports.installer = async ({ cwd, log }) => {
