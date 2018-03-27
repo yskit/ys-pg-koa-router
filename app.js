@@ -2,6 +2,7 @@ const Router = require('koa-router');
 const fs = require('fs');
 const path = require('path');
 const util = require('ys-utils');
+const debug = require('debug')('pg-koa-router');
 
 module.exports = (app, configs) => {
   app.on('serverWillStart', () => {
@@ -10,7 +11,7 @@ module.exports = (app, configs) => {
       throw new Error(`router of '${routerPath}' must be exists`);
     }
     app.router = loadRoutesModules(routerPath, app, configs);
-    app.console.log(`  - [${app.pid}]`, '[`ys-pg-koa-router`:app] Routers Loaded: ' + routerPath);
+    debug(`  - [${app.pid}]`, '[`ys-pg-koa-router`:app] Routers Loaded: ' + routerPath);
     app.koa.use(app.router.routes());
     app.koa.use(app.router.allowedMethods());
   });
