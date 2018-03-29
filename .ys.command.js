@@ -2,7 +2,7 @@ const fs = require('fs-extra');
 const path = require('path');
 
 module.exports = class CommanderModule {
-  constructor(installer, thread) {
+  constructor(thread, installer) {
     this.installer = installer;
     this.thread = thread;
   }
