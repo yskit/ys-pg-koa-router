@@ -20,7 +20,7 @@ module.exports = class CommanderModule {
     }
     const data = `module.exports = (app, router) => {}`;
     fs.writeFileSync(filePath, data, 'utf8');
-    this.thread.on('beforeRollback', () => {
+    this.thread.on('beforeRollback', async () => {
       this.installer.spinner.debug('-', path.relative(process.cwd(), filePath));
       fs.unlinkSync(filePath);
       await this.installer.delay(50);
