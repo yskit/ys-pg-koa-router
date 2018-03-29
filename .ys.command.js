@@ -24,7 +24,7 @@ module.exports = class CommanderModule {
     this.installer.spinner.success(`写入路由文件成功 - '${filePath}'`);
   }
 
-  async add(name) {
+  add(name) {
     const root = this.installer.root;
     const type = this.installer.type;
     if (!root || type !== 'framework') {
@@ -69,7 +69,11 @@ module.exports = class CommanderModule {
     router.get('/', app.controller.index);
   }`;
     fs.writeFileSync(indexFilePath, data, 'utf8');
-    this.thread.on('beforeRollback', () => fs.unlinkSync(indexFilePath));
+    this.thread.on('beforeRollback', async () => {
+      this.installer.debug('-', path.relative(process.cwd(), indexFilePath));
+      fs.unlinkSync(indexFilePath);
+      await this.installer.delay(50);
+    });
     this.installer.spinner.success('+', path.relative(process.cwd(), indexFilePath));
   }
 
