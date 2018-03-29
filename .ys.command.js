@@ -7,7 +7,7 @@ module.exports = class CommanderModule {
     this.thread = thread;
   }
 
-  addFile(cwd, name) {
+  async addFile(cwd, name) {
     name = name.replace(/\.js$/i, '');
     if (!/^[a-z][a-z0-9_/]*$/.test(name)) {
       throw new Error('模块命名不规范');
@@ -25,10 +25,10 @@ module.exports = class CommanderModule {
       fs.unlinkSync(filePath);
       await this.installer.delay(50);
     });
-    this.installer.spinner.success(`写入路由文件成功 - '${filePath}'`);
+    this.installer.spinner.success('+', path.relative(process.cwd(), filePath));
   }
 
-  add(name) {
+  async add(name) {
     const root = this.installer.root;
     const type = this.installer.type;
     if (!root || type !== 'framework') {
