@@ -70,7 +70,7 @@ module.exports = class CommanderModule {
   }`;
     fs.writeFileSync(indexFilePath, data, 'utf8');
     this.thread.on('beforeRollback', async () => {
-      this.installer.debug('-', path.relative(process.cwd(), indexFilePath));
+      this.installer.spinner.debug('-', path.relative(process.cwd(), indexFilePath));
       fs.unlinkSync(indexFilePath);
       await this.installer.delay(50);
     });
