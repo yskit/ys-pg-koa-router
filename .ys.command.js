@@ -24,7 +24,7 @@ module.exports = class CommanderModule {
     this.installer.spinner.success(`写入路由文件成功 - '${filePath}'`);
   }
 
-  add(name) {
+  async add(name) {
     const root = this.installer.root;
     const type = this.installer.type;
     if (!root || type !== 'framework') {
@@ -36,7 +36,7 @@ module.exports = class CommanderModule {
     if (isInRouterDir) {
       return this.addFile(process.cwd(), name);
     }
-    await this.addFile(routerPath, name);
+    this.addFile(routerPath, name);
   }
 
   ['options:plugin']() {
