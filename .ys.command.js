@@ -20,7 +20,11 @@ module.exports = class CommanderModule {
     }
     const data = `module.exports = (app, router) => {}`;
     fs.writeFileSync(filePath, data, 'utf8');
-    this.thread.on('beforeRollback', () => fs.unlinkSync(filePath));
+    this.thread.on('beforeRollback', () => {
+      this.installer.spinner.debug('-', path.relative(process.cwd(), filePath));
+      fs.unlinkSync(filePath);
+      await this.installer.delay(50);
+    });
     this.installer.spinner.success(`写入路由文件成功 - '${filePath}'`);
   }
 
@@ -59,8 +63,11 @@ module.exports = class CommanderModule {
     const indexFilePath = path.resolve(routerDir, 'index.js');
     if (!fs.existsSync(routerDir)) {
       fs.mkdirSync(routerDir);
-      this.thread.on('beforeRollback', () => fs.removeSync(routerDir));
-      
+      this.thread.on('beforeRollback', async () => {
+        this.installer.spinner.debug('-', path.relative(process.cwd(), routerDir));
+        fs.removeSync(routerDir);
+        await this.installer.delay(50);
+      });
     }
     if (fs.existsSync(indexFilePath)) {
       throw new Error(`file '${indexFilePath}' is already exists.`);
