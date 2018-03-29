@@ -62,7 +62,7 @@ module.exports = class CommanderModule {
     const routerDir = path.resolve(cwd, 'app', 'router');
     const indexFilePath = path.resolve(routerDir, 'index.js');
     if (!fs.existsSync(routerDir)) {
-      fs.mkdirSync(routerDir);
+      fs.ensureDirSync(routerDir);
       this.thread.on('beforeRollback', async () => {
         this.installer.spinner.debug('-', path.relative(process.cwd(), routerDir));
         fs.removeSync(routerDir);
@@ -86,7 +86,8 @@ module.exports = class CommanderModule {
 
   async ['life:destroyed']({ cwd }) {
     this.installer.spinner.warn('正在删除项目中的路由文件 ...');
-    await this.installer.execScript(cwd, rm, '-rf', 'app/router');
+    await this.installer.execScript(cwd, 'rm', '-rf', 'app/router');
     this.installer.spinner.warn('项目中的路由文件删除成功！');
+    await this.installer.delay(50);
   }
 }
