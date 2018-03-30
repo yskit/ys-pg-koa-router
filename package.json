@@ -1,6 +1,6 @@
 {
   "name": "ys-pg-koa-router",
-  "version": "1.0.31",
+  "version": "1.0.32",
   "description": "ys-mutify framework for koa-router",
   "main": "app.js",
   "scripts": {
@@ -25,6 +25,7 @@
   },
   "files": [
     "app.js",
-    ".ys.command.js"
+    ".ys.command.js",
+    "command.js"
   ]
 }
